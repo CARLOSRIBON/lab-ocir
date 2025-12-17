@@ -39,10 +39,11 @@ jobs:
                   key_file = $HOME/.oci/oci_api_key.pem
                   region = ${{ vars.OCI_CLI_REGION }}
                   EOF
+                  oci setup repair-file-permissions --file /home/runner/.oci/config
 
             - name: Create ocir repo if no exists
               run: |
-                  oci artifacts container repository create --compartment-id ${{ env.COMPARTMENT_ID}} --display-name test-cenam --is-public true
+                  oci artifacts container repository create --compartment-id ${{ env.COMPARTMENT_ID}} --display-name test-cenam --is-public yes
 
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v3
