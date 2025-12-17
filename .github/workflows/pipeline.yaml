@@ -31,7 +31,14 @@ jobs:
                   mkdir -p $HOME/.oci
                   echo ${{secrets.OCI_CLI_KEY_CONTENT}} | base64 -d > $HOME/.oci/oci_api_key.pem
                   chmod 600 $HOME/.oci/oci_api_key.pem
-                  oci setup config --profile DEFAULT --region ${{ vars.OCI_CLI_REGION }} --tenancy ${{ vars.OCI_CLI_TENANCY }} --user ${{ vars.OCI_CLI_USER }} --fingerprint ${{ vars.OCI_CLI_FINGERPRINT }} --key-file $HOME/.oci/oci_api_key.pem
+                  cat <<EOF > $HOME/.oci/config
+                  [DEFAULT]
+                  tenancy = ${{ vars.OCI_CLI_TENANCY }}
+                  user = ${{ vars.OCI_CLI_USER }}
+                  fingerprint = ${{ vars.OCI_CLI_FINGERPRINT }}
+                  key_file = $HOME/.oci/oci_api_key.pem
+                  region = ${{ vars.OCI_CLI_REGION }}
+                  EOF
 
             - name: Create ocir repo if no exists
               run: |
