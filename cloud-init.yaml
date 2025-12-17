@@ -1,0 +1,13 @@
+#!/bin/bash
+curl --fail -H "Authorization: Bearer Oracle" -L0 http://169.254.169.254/opc/v2/instance/metadata/oke_init_script | base64 --decode >/var/run/oke-init.sh
+
+# Descargar binarios del Image Credential Provider
+wget https://github.com/oracle-devrel/oke-credential-provider-for-ocir/releases/latest/download/oke-credential-provider-for-ocir-linux-amd64 -O /usr/local/bin/oke-credential-provider
+chmod 755 /usr/local/bin/oke-credential-provider
+
+# Descargar configuración
+wget https://github.com/oracle-devrel/oke-credential-provider-for-ocir/releases/latest/download/credential-provider-config.yaml -P /etc/kubernetes/
+
+# Ejecutar script de inicialización de OKE con parámetros extra para kubelet
+bash /var/run/oke-init.sh \
+  --kubelet-extra-args "--image-credential-provider-config=/etc/kubernetes/credential-provider-config.yaml --image-credential-provider-bin-dir=/usr/local/bin"
