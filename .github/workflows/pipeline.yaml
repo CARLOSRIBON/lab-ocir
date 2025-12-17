@@ -7,8 +7,8 @@ on:
         branches: [main]
 
 env:
-    REGISTRY: ${{ secrets.OCI_REGION_KEY }}.ocir.io
-    IMAGE_NAME: ${{ secrets.OCI_TENANCY_NAMESPACE }}/test-cenam
+    REGISTRY: ${{ vars.OCI_REGION_KEY }}.ocir.io
+    IMAGE_NAME: ${{ vars.OCI_TENANCY_NAMESPACE }}/test-cenam
 
 jobs:
     build:
@@ -29,7 +29,7 @@ jobs:
               uses: docker/login-action@v3
               with:
                   registry: ${{ env.REGISTRY }}
-                  username: "${{ secrets.OCI_TENANCY_NAMESPACE }}/${{ secrets.OCI_IDENTITY_DOMAIN }}/${{ secrets.OCI_USERNAME }}"
+                  username: "${{ vars.OCI_TENANCY_NAMESPACE }}/${{ vars.OCI_IDENTITY_DOMAIN }}/${{ vars.OCI_USERNAME }}"
                   password: ${{ secrets.OCI_AUTH_TOKEN }}
 
             - name: Build and push Docker image
