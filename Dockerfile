@@ -1,8 +1,6 @@
-FROM nginx:alpine
+FROM nginx:latest
 LABEL maintainer="workshop@cenam.com"
 RUN echo '<h1>Hello from OCIR!</h1>' > /usr/share/nginx/html/index.html
-
-RUN apk add --no-cache curl wget bash sudo
 
 RUN echo "<h1>Hello lab OCIR!</h1>" > /usr/share/nginx/html/index.html
 
